@@ -1,0 +1,11 @@
+.arena {
+	max-width: 550px;
+	min-width: 400px;
+	margin: 0 auto;
+	position: relative;
+}
+
+.ring-img {
+	width: 100%;
+	height: 100%;
+}

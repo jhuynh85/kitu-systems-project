@@ -1,0 +1,24 @@
+.PC {
+	position: absolute;
+	bottom: 40%;
+	left: 45%;
+	width: 80px;
+	height: 118px;
+	display: block;
+	background-image: url('../../assets/images/mike2.png');
+	animation: mike 1.5s steps(7) infinite;
+}
+
+.PC-punch {
+	position: absolute;
+	bottom: 40%;
+	left: 45%;
+	width: 80px;
+	height: 118px;
+}
+
+@keyframes mike {
+	100% {
+		background-position: -555px 0;
+	}
+}

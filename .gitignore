@@ -63,6 +63,8 @@ typings/
 
 # production
 /build
+/dist
+!/dist/index.html
 
 # misc
 .vscode

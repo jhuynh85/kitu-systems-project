@@ -1,0 +1,26 @@
+.player {
+	position: absolute;
+	z-index: 9999;
+	bottom: 25%;
+	left: 45%;
+	width: 40px;
+	height: 73px;
+	display: block;
+	background-image: url('../../assets/images/mac.png');
+	animation: mac 0.75s steps(3) infinite;
+}
+
+.player-punch {
+	position: absolute;
+	z-index: 9999;
+	bottom: 25%;
+	left: 45%;
+	width: 40px;
+	height: 73px;
+}
+
+@keyframes mac {
+	100% {
+		background-position: -120px 0;
+	}
+}

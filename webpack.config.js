@@ -1,4 +1,5 @@
-const webpack = require('webpack');
+const webpack = require('webpack')
+const path = require('path')
 
 module.exports = {
   entry: './src/index.js',
@@ -12,7 +13,15 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        use: ['eslint-loader']
+        use: ['babel-loader', 'eslint-loader']
+      },
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader']
+      },
+      {
+        test: /\.(png|svg|jpg|gif)$/,
+        use: ['file-loader']
       }
     ]
   },
@@ -20,8 +29,8 @@ module.exports = {
     extensions: ['*', '.js', '.jsx']
   },
   output: {
-    path: __dirname + '/dist',
-    publicPath: '/dist',
+    path: path.join(__dirname, '/dist'),
+    publicPath: '/',
     filename: 'bundle.js'
   },
   plugins: [new webpack.HotModuleReplacementPlugin()],
@@ -29,4 +38,4 @@ module.exports = {
     contentBase: './dist',
     hot: true
   }
-};
+}
