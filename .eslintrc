@@ -1,10 +1,10 @@
 {
   "parser": "babel-eslint",
-  "plugins": ["react"],
+  "plugins": ["react", "jest"],
   "rules": {
     "react/jsx-uses-react": "error",
     "react/jsx-uses-vars": "error",
     "react/jsx-tag-spacing": [0]
   },
-  "extends": ["standard", "standard-react"]
+  "extends": ["standard", "standard-react", "plugin:jest/recommended"]
 }
