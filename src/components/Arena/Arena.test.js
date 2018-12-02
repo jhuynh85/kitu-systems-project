@@ -1,10 +1,11 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 import '../../setupTests'
+
 import Arena from './Arena'
 import Mac from '../Mac/Mac'
 import Mike from '../Mike/Mike'
-import Healthbars from '../HealthBars/HealthBars'
+import HealthBar from '../HealthBar/HealthBar'
 import RingImage from '../../assets/images/ring.jpg'
 
 let wrapper
@@ -14,21 +15,21 @@ beforeEach(() => {
 })
 
 describe('Arena component', () => {
-  it('contains an image of the ring', () => {
+  it('shows an image of the ring', () => {
     const image = wrapper.find('img.ring-img')
     const imageSrc = image.prop('src')
     expect(imageSrc).toEqual(RingImage)
   })
 
-  it('contains a Mac component', () => {
+  it('shows one Mac component', () => {
     expect(wrapper.find(Mac).length).toEqual(1)
   })
 
-  it('contains a Mike component', () => {
+  it('shows one Mike component', () => {
     expect(wrapper.find(Mike).length).toEqual(1)
   })
 
-  it('contains a Healthbars component', () => {
-    expect(wrapper.find(Healthbars).length).toEqual(1)
+  it('shows two HealthBar components', () => {
+    expect(wrapper.find(HealthBar).length).toEqual(2)
   })
 })

@@ -1,0 +1,13 @@
+.hpBar {
+	height: 25px;
+	position: absolute;
+	z-index: 9999;
+}
+
+.hpBarBackground {
+	height: 25px;
+	position: absolute;
+	background-color: black;
+	border: 1px solid;
+	z-index: 9998;
+}

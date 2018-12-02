@@ -3,7 +3,7 @@ import './Arena.css'
 import RingImg from '../../assets/images/ring.jpg'
 import Mac from '../Mac/Mac'
 import Mike from '../Mike/Mike'
-import HealthBars from '../HealthBars/HealthBars'
+import HealthBar from '../HealthBar/HealthBar'
 
 class Arena extends Component {
   constructor (props) {
@@ -25,10 +25,11 @@ class Arena extends Component {
   render () {
     return (
       <div className={'arena'}>
-        <img className={'ring-img'} src={RingImg}/>
+        <img className={'ring-img'} src={RingImg} alt={'Boxing ring image'}/>
         <Mac status={this.state.macStatus}/>
         <Mike status={this.state.mikeStatus}/>
-        <HealthBars macHP={this.state.macHP} mikeHP={this.state.mikeHP}/>
+        <HealthBar color={'white'} percent={100} bottom={'14px'} left={'10px'}/>
+        <HealthBar color={'red'} percent={11} bottom={'14px'} right={'10px'}/>
       </div>)
   }
 }
