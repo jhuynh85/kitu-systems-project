@@ -11,6 +11,8 @@ beforeEach(() => {
   wrapper = shallow(<Main/>)
 })
 
-it('shows one Arena component', () => {
-  expect(wrapper.find(Arena).length).toEqual(1)
+describe('Main component', () => {
+  it('shows one Arena component', () => {
+    expect(wrapper.find(Arena).length).toEqual(1)
+  })
 })
