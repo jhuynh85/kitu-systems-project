@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import './Arena.css'
 import RingImg from '../../assets/images/ring.jpg'
 import Mac from '../Mac/Mac'
@@ -9,12 +10,9 @@ class Arena extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      mikeStatus: '',
       macStatus: '',
-      macHP: 100,
-      mikeHP: 100
+      mikeStatus: ''
     }
-
     this.hit = this.hit.bind(this)
   }
 
@@ -28,10 +26,15 @@ class Arena extends Component {
         <img className={'ring-img'} src={RingImg} alt={'Boxing ring image'}/>
         <Mac status={this.state.macStatus}/>
         <Mike status={this.state.mikeStatus}/>
-        <HealthBar color={'white'} percent={100} bottom={'14px'} left={'10px'}/>
-        <HealthBar color={'red'} percent={11} bottom={'14px'} right={'10px'}/>
+        <HealthBar color={'white'} percent={this.props.macHP} bottom={'14px'} left={'10px'}/>
+        <HealthBar color={'red'} percent={this.props.mikeHP} bottom={'14px'} right={'10px'}/>
       </div>)
   }
+}
+
+Arena.propTypes = {
+  macHP: PropTypes.number.isRequired,
+  mikeHP: PropTypes.number.isRequired
 }
 
 export default Arena

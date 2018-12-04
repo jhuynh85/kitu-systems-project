@@ -1,6 +1,13 @@
 .main {
 	width: 100%;
 	min-height: 100vh;
-	background: yellow;
 	text-align: center;
+	color: yellow;
+}
+
+.score-container {
+	margin: 10px auto;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }

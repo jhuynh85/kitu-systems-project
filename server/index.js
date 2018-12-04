@@ -5,7 +5,7 @@ const path = require('path')
 
 // ============== INITIALIZE EXPRESS APP & SETUP FOR DATA PARSING===============//
 const app = express()
-const port = process.env.PORT || 5000
+const port = process.env.PORT || 4000
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -23,8 +23,23 @@ app.get('/api/all', function (req, res) {
   res.json(WORD_BANK)
 })
 
-// Add or update a word in the word bank
-// and returns JSON of updated word bank
+// Gets a random word (and its hint) from the word bank
+app.get('/api/random', function (req, res) {
+  const pickRandomProperty = function (obj) {
+    const keys = Object.keys(obj)
+    return keys[keys.length * Math.random() << 0]
+  }
+
+  const numWords = Object.keys(WORD_BANK).length
+  if (numWords > 0) {
+    let randomWord = pickRandomProperty(WORD_BANK)
+    res.json({ 'word': randomWord, 'hint': WORD_BANK[randomWord] })
+  } else {
+    res.json({})
+  }
+})
+
+// Add or update a word in the word bank and returns JSON of updated word bank
 app.put('/api/:word', function (req, res) {
   const { word } = req.params
   // Check for valid request
@@ -36,8 +51,7 @@ app.put('/api/:word', function (req, res) {
   }
 })
 
-// Deletes a word from the word bank and returns
-// JSON of updated word bank
+// Deletes a word from the word bank and returns JSON of updated word bank
 app.delete('/api/:word', function (req, res) {
   const { word } = req.params
   // Delete word from word bank if it exists

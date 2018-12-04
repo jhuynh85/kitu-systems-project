@@ -22,6 +22,10 @@ module.exports = {
       {
         test: /\.(png|svg|jpg|gif)$/,
         use: ['file-loader']
+      },
+      {
+        test: /\.(woff|woff2|eot|ttf)$/,
+        loader: 'file-loader?limit=100000'
       }
     ]
   },
@@ -36,6 +40,9 @@ module.exports = {
   plugins: [new webpack.HotModuleReplacementPlugin()],
   devServer: {
     contentBase: './dist',
-    hot: true
+    hot: true,
+    proxy: {
+      '/api': 'http://localhost:4000'
+    }
   }
 }

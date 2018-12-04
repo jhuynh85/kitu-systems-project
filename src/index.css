@@ -1,3 +1,10 @@
+@font-face {
+	font-family: 'PressStart2P';
+	src: url('./assets/fonts/PressStart2P.ttf');
+	font-weight: normal;
+	font-style: normal;
+}
+
 * {
 	box-sizing: border-box;
 }
@@ -5,7 +12,7 @@
 html, body {
 	margin: 0;
 	padding: 0;
-	font-family: sans-serif;
+	font-family: 'PressStart2P', sans-serif;
 }
 
 h1 {

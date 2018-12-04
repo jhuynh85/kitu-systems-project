@@ -1,4 +1,3 @@
-require('babel-polyfill')
 const request = require('supertest')
 const server = require('./index.js')
 
@@ -21,16 +20,34 @@ describe('GET /', () => {
   })
 })
 
-// Test GET route
+// Test GET all words route
 describe('GET /api/all', () => {
   it('should respond with a 200 status', async () => {
     const response = await request(server).get('/api/all')
     expect(response.status).toEqual(200)
   })
 
-  it('should respond with word bank JSON', async () => {
+  it('should respond with the word bank JSON', async () => {
     const response = await request(server).get('/api/all')
     expect(response.body).toEqual(WORD_BANK)
+  })
+})
+
+// Test GET random word route
+describe('GET /api/random', () => {
+  it('should respond with a 200 status', async () => {
+    const response = await request(server).get('/api/random')
+    expect(response.status).toEqual(200)
+  })
+
+  it('should respond with a random word JSON from the word bank', async () => {
+    const response = await request(server).get('/api/random')
+    expect(WORD_BANK[response.body.word]).not.toBeNull()
+    expect(WORD_BANK[response.body.word]).toEqual(response.body.hint)
+  })
+
+  it('should respond with a blank JSON if the word bank is empty', async () => {
+    const response = await request(server).get('/api/random')
   })
 })
 
