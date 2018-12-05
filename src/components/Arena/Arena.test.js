@@ -11,7 +11,7 @@ import RingImage from '../../assets/images/ring.jpg'
 let wrapper
 
 beforeEach(() => {
-  wrapper = shallow(<Arena/>)
+  wrapper = shallow(<Arena status='idle' macHP={75} mikeHP={45}/>)
 })
 
 describe('Arena component', () => {

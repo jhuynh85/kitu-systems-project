@@ -1,7 +1,7 @@
 .hpBar {
 	height: 25px;
 	position: absolute;
-	z-index: 9999;
+	z-index: 4999;
 }
 
 .hpBarBackground {
@@ -9,5 +9,5 @@
 	position: absolute;
 	background-color: black;
 	border: 1px solid;
-	z-index: 9998;
+	z-index: 4998;
 }

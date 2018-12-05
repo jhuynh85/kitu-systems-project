@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import './Main.css'
 import Arena from '../Arena/Arena'
+import Modal from '../Modal/Modal'
 
 import TrophyImg from '../../assets/images/trophy.png'
 
@@ -16,9 +17,11 @@ class Main extends Component {
       guessesRemaining: 99,
       incorrectLetters: [],
       wordState: [],
+      status: 'idle',
       macHP: 100,
       mikeHP: 100,
-      score: 0
+      score: 0,
+      showModal: false
     }
 
     this.getNewWord = this.getNewWord.bind(this)
@@ -29,6 +32,10 @@ class Main extends Component {
     this.checkLetter = this.checkLetter.bind(this)
     this.calculateMacHP = this.calculateMacHP.bind(this)
     this.calculateMikeHP = this.calculateMikeHP.bind(this)
+    this.hit = this.hit.bind(this)
+    this.miss = this.miss.bind(this)
+    this.showModal = this.showModal.bind(this)
+    this.hideModal = this.hideModal.bind(this)
   }
 
   // Gets a random word from the API
@@ -79,21 +86,18 @@ class Main extends Component {
   handleKeyDown (event) {
     // Accept only letter key presses
     if (event.keyCode >= 65 && event.keyCode <= 90) {
-      // Check if letter exists in word
+      // Check whether it's a hit or miss
       this.checkLetter(event.key)
-      this.calculateMacHP()
-      this.calculateMikeHP()
     }
   }
 
-  // Check if the current word contains the given letter
+  // Function to check if the current word contains the given letter
   checkLetter (c) {
     // Check if letter has already been guessed before
     if (this.state.guessedLetters.indexOf(c) !== -1) {
       // Letter has been already guessed, do nothing
       return
     }
-
     // Add letter to list of guessed letters
     this.setState({ guessedLetters: [...this.state.guessedLetters, c] })
 
@@ -112,15 +116,12 @@ class Main extends Component {
     }
 
     if (found) {
-      // Perform punch animation
       this.setState({
         wordState: currentWordState,
         lettersRemaining: currentLettersRemaining
       })
-      // Trigger win if there are no letters left
-      if (currentLettersRemaining === 0) {
-        this.win()
-      }
+      this.calculateMikeHP()
+      this.hit()
     } else {
       let currentIncorrectLetters = this.state.incorrectLetters.slice()
       let currentGuessesRemaining = this.state.guessesRemaining
@@ -131,22 +132,55 @@ class Main extends Component {
         incorrectLetters: currentIncorrectLetters,
         guessesRemaining: currentGuessesRemaining
       })
-      // Trigger lose if there are no guesses left
-      if (currentGuessesRemaining === 0) {
-        this.lose()
-      }
-      // Perform miss animation
+      this.calculateMacHP()
+      this.miss()
     }
   }
 
+  // Calculate Mac's remaining HP percentage
   calculateMacHP () {
     let macHP = Math.floor((this.state.guessesRemaining / 6) * 100)
     this.setState({ macHP })
   }
 
+  // Calculate Mike's remaining HP percentage
   calculateMikeHP () {
     let mikeHP = Math.floor((this.state.lettersRemaining / this.state.word.length) * 100)
     this.setState({ mikeHP })
+  }
+
+  // Sets status to 'hit' for 500ms before changing back to 'idle'
+  hit () {
+    this.setState({ status: 'hit' })
+    setTimeout(() => {
+      this.setState({ status: 'idle' })
+      // Trigger win if there are no letters left
+      if (this.state.lettersRemaining === 0) {
+        this.win()
+      }
+    }, 750)
+  }
+
+  // Sets status to 'miss' for 500ms before changing back to 'idle'
+  miss () {
+    this.setState({ status: 'miss' })
+    setTimeout(() => {
+      this.setState({ status: 'idle' })
+      // Trigger lose if there are no guesses left
+      if (this.state.guessesRemaining === 0) {
+        this.lose()
+      }
+    }, 750)
+  }
+
+  showModal () {
+    this.setState({ showModal: true })
+    document.removeEventListener('keydown', this.handleKeyDown, false)
+  }
+
+  hideModal () {
+    this.setState({ showModal: false })
+    document.addEventListener('keydown', this.handleKeyDown, false)
   }
 
   render () {
@@ -154,22 +188,29 @@ class Main extends Component {
       <div>
         <div className={'main'}>
           <h1>Main</h1>
-          <Arena macHP={this.state.macHP} mikeHP={this.state.mikeHP}/>
+          <Arena status={this.state.status} macHP={this.state.macHP} mikeHP={this.state.mikeHP}/>
           <div className={'score-container'}>
-            <img src={TrophyImg} alt={'Trophy image'}/> x {this.state.score}
+            <img src={TrophyImg} alt={'Trophy image'}/> x&nbsp;
+            <div className={'score'}>{this.state.score}</div>
           </div>
           <div>
-            Word: {this.state.word}
+            {this.state.word}
           </div>
-          <div>
-            Wordstate: {this.state.wordState.join(' ')}
+          <div className={'wordState'}>
+            {this.state.wordState.join(' ')}
           </div>
           <div>
             Incorrect letters: {this.state.incorrectLetters.join(' ')}
           </div>
-          <div>
-            {}
-          </div>
+        </div>
+        <div>
+          <Modal show={this.state.showModal} handleClose={this.hideModal}>
+            <p>Modal</p>
+            <p>Data</p>
+          </Modal>
+          <button type='button' onClick={this.showModal}>
+            Open
+          </button>
         </div>
       </div>
     )
