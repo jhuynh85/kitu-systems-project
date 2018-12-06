@@ -1,6 +1,8 @@
 ## Mike Tyson's Super Hangman Punchout! (React Edition)
 by Joseph Huynh
 
+Deployed at: https://hangman-react-edition.herokuapp.com/
+
 This application a hangman game which consists of a React frontend and a 
 Node/Express backend. The frontend displays the graphical interface while the backend
 provides the list of available words. API routes are available to retrieve or modify 
