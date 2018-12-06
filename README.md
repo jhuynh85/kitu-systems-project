@@ -25,6 +25,7 @@ this application is not playable on a mobile device
 
 ### Information
 
+To install the necessary modules, run `npm install` while in the application's root directory.
 React files can be found in the `/src` directory and Node files in the `/server` directory.
 Compiled frontend files are stored in the `/dist` directory.
 
