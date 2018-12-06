@@ -45,10 +45,6 @@ describe('GET /api/random', () => {
     expect(WORD_BANK[response.body.word]).not.toBeNull()
     expect(WORD_BANK[response.body.word]).toEqual(response.body.hint)
   })
-
-  it('should respond with a blank JSON if the word bank is empty', async () => {
-    const response = await request(server).get('/api/random')
-  })
 })
 
 // Test PUT route
