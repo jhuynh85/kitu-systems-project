@@ -1,8 +1,8 @@
 .arena {
 	max-width: 550px;
 	min-width: 400px;
-	margin: 10px auto;
 	position: relative;
+	margin-right: 10px;
 }
 
 .ring-img {

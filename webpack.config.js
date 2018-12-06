@@ -30,7 +30,8 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: ['*', '.js', '.jsx']
+    extensions: ['*', '.js', '.jsx'],
+    alias: { soundmanager2: 'soundmanager2/script/soundmanager2-nodebug-jsmin.js' }
   },
   output: {
     path: path.join(__dirname, '/dist'),

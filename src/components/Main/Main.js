@@ -17,11 +17,15 @@ class Main extends Component {
       guessesRemaining: 99,
       incorrectLetters: [],
       wordState: [],
+      wordBank: [],
       status: 'idle',
       macHP: 100,
       mikeHP: 100,
       score: 0,
-      showModal: false
+      showModal: false,
+      modal: 'list',
+      wordInput: '',
+      hintInput: ''
     }
 
     this.getNewWord = this.getNewWord.bind(this)
@@ -36,38 +40,56 @@ class Main extends Component {
     this.miss = this.miss.bind(this)
     this.showModal = this.showModal.bind(this)
     this.hideModal = this.hideModal.bind(this)
+    this.loadWordBank = this.loadWordBank.bind(this)
+    this.deleteWord = this.deleteWord.bind(this)
+    this.handleInputChange = this.handleInputChange.bind(this)
+    this.addNewWord = this.addNewWord.bind(this)
   }
 
   // Gets a random word from the API
   async getNewWord () {
     // Get a new word
-    const newWord = await axios.get('/api/random')
-    const { word, hint } = newWord.data
-    this.setState({ word, hint })
-    return { word, hint }
+    try {
+      const newWord = await axios.get('/api/random')
+      const { word, hint } = newWord.data
+      this.setState({ word, hint })
+      return { word, hint }
+    } catch (e) {
+      console.log(e)
+    }
   }
 
   // Start a new round
   async reset () {
-    const { word, hint } = await this.getNewWord()
-    this.setState({
-      word,
-      hint,
-      guessedLetters: [],
-      lettersRemaining: word.length,
-      guessesRemaining: 6,
-      incorrectLetters: [],
-      wordState: '_'.repeat(word.length).split(''),
-      macHP: 100,
-      mikeHP: 100
-    })
+    try {
+      const { word, hint } = await this.getNewWord()
+      if (word && hint) {
+        this.setState({
+          word,
+          hint,
+          guessedLetters: [],
+          lettersRemaining: word.length,
+          guessesRemaining: 6,
+          incorrectLetters: [],
+          wordState: '_'.repeat(word.length).split(''),
+          macHP: 100,
+          mikeHP: 100
+        })
+      } else {
+        window.alert('Word bank is empty, unable to get a new word!')
+      }
+    } catch (e) {
+      console.log(e)
+    }
   }
 
+  // Increments the score and resets the board
   async win () {
     await this.reset()
     this.setState({ score: this.state.score + 1 })
   }
 
+  // Resets the board
   async lose () {
     await this.reset()
   }
@@ -174,6 +196,7 @@ class Main extends Component {
   }
 
   showModal () {
+    this.loadWordBank()
     this.setState({ showModal: true })
     document.removeEventListener('keydown', this.handleKeyDown, false)
   }
@@ -183,34 +206,123 @@ class Main extends Component {
     document.addEventListener('keydown', this.handleKeyDown, false)
   }
 
+  // Gets the word bank from API and saves to state
+  async loadWordBank () {
+    const wordBank = await axios.get('/api/all')
+    this.setState({ wordBank: wordBank.data })
+  }
+
+  // Deletes word from word bank
+  async deleteWord (word) {
+    await axios.delete(`/api/${word}`)
+  }
+
+  // Adds/overwrites word and its hint to the word bank
+  // Checks to see if user input is valid
+  async addNewWord ({ word, hint }) {
+    const letterRegex = RegExp('^[a-zA-Z]+$')
+    if (letterRegex.test(word)) {
+      await axios.put(`/api/${word}`, { hint })
+      this.setState({
+        wordInput: '',
+        hintInput: ''
+      })
+      this.hideModal()
+    } else {
+      window.alert('Invalid input. Word must only consist of alphabet letters.')
+    }
+  }
+
+  handleInputChange (event) {
+    const target = event.target
+    const name = target.name
+    const value = target.value
+    this.setState({ [name]: value })
+  }
+
   render () {
     return (
       <div>
         <div className={'main'}>
-          <h1>Main</h1>
-          <Arena status={this.state.status} macHP={this.state.macHP} mikeHP={this.state.mikeHP}/>
+          <h1>Mike Tyson's Super Hangman Punchout (React Edition)</h1>
+          <div className={'arena-container'}>
+            <Arena status={this.state.status} macHP={this.state.macHP} mikeHP={this.state.mikeHP}/>
+            <div className={'btnContainer'}>
+              <div className={'modal-text'}>
+                {this.state.modal === 'list' &&
+                <Modal show={this.state.showModal} handleClose={this.hideModal}>
+                  <p>WORD BANK</p>
+                  <ul className={'wordBank-list'}>
+                    {Object.keys(this.state.wordBank).map(wordObj => {
+                      return (
+                        <li key={wordObj}>{wordObj}
+                          <span className={'red clickable'} title={'Delete from word bank'} onClick={() => {
+                            this.deleteWord(wordObj)
+                            this.loadWordBank()
+                          }}> X</span>
+                          <br/>
+                          <span className={'small-text'}>{this.state.wordBank[wordObj]}</span>
+                          <br/><br/>
+                        </li>
+                      )
+                    })}
+                  </ul>
+                </Modal>}
+                {this.state.modal === 'add' &&
+                <Modal show={this.state.showModal} handleClose={this.hideModal}>
+                  <p>ADD NEW WORD</p>
+                  <form className={'align-left'}>
+                    <label>
+                      Word:
+                      <textarea name={'wordInput'} value={this.state.wordInput} onChange={this.handleInputChange}/>
+                    </label>
+                    <br/>
+                    <label>
+                      Hint:
+                      <textarea name={'hintInput'} value={this.state.hintInput} onChange={this.handleInputChange}/>
+                    </label>
+                    <br/>
+                  </form>
+                  <div className={'btn'} onClick={() => {
+                    this.addNewWord({ word: this.state.wordInput, hint: this.state.hintInput })
+                  }}>SUBMIT
+                  </div>
+                </Modal>}
+                <div className={'btn'} title={'View word bank'} onClick={() => {
+                  this.setState({ modal: 'list' })
+                  this.showModal()
+                }}>VIEW
+                </div>
+                <div className={'btn'} title={'Add or update a word'} onClick={() => {
+                  this.setState({ modal: 'add' })
+                  this.showModal()
+                }}>ADD/EDIT
+                </div>
+                <div className={'btn'} title={'Get another word'} onClick={this.reset}>
+                  RESET
+                </div>
+              </div>
+            </div>
+          </div>
           <div className={'score-container'}>
-            <img src={TrophyImg} alt={'Trophy image'}/> x&nbsp;
+            <img src={TrophyImg} alt={'Trophy'}/> x&nbsp;
             <div className={'score'}>{this.state.score}</div>
           </div>
-          <div>
-            {this.state.word}
+          <div>Type a letter and guess the word!</div>
+          <br/>
+          <div className={'hint'}>
+            HINT: {this.state.hint}
           </div>
           <div className={'wordState'}>
             {this.state.wordState.join(' ')}
           </div>
+          <br/>
           <div>
-            Incorrect letters: {this.state.incorrectLetters.join(' ')}
+            Incorrect letters:
           </div>
-        </div>
-        <div>
-          <Modal show={this.state.showModal} handleClose={this.hideModal}>
-            <p>Modal</p>
-            <p>Data</p>
-          </Modal>
-          <button type='button' onClick={this.showModal}>
-            Open
-          </button>
+          <div className={'incorrect-letters'}>
+            {this.state.incorrectLetters.join(' ')}
+          </div>
         </div>
       </div>
     )

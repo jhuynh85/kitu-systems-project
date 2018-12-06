@@ -42,11 +42,9 @@ app.get('/api/random', function (req, res) {
 // Add or update a word in the word bank and returns JSON of updated word bank
 app.put('/api/:word', function (req, res) {
   const { word } = req.params
-  // Check if input is valid
-
   // Check for valid request
   if (req.body && req.body.hint) {
-    WORD_BANK[word] = req.body.hint.trim()
+    WORD_BANK[word.toLowerCase().trim()] = req.body.hint.trim()
     res.json(WORD_BANK)
   } else {
     res.status(400).send('Bad Request')
@@ -57,7 +55,7 @@ app.put('/api/:word', function (req, res) {
 app.delete('/api/:word', function (req, res) {
   const { word } = req.params
   // Delete word from word bank if it exists
-  if (WORD_BANK[word]) {
+  if (WORD_BANK[word.toLowerCase().trim()]) {
     delete WORD_BANK[word]
     res.json(WORD_BANK)
   } else {

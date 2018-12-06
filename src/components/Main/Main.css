@@ -1,8 +1,17 @@
 .main {
 	width: 100%;
-	min-height: 100vh;
 	text-align: center;
+	color: white;
+}
+
+.main div {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+h1 {
 	color: yellow;
+	padding: 10px 5%;
 }
 
 .score-container {
@@ -10,4 +19,68 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
+}
+
+.arena-container {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+}
+
+.btn{
+	font-family: 'PressStart2P', sans-serif;
+	background-color: white;
+	border: 4px solid red;
+	padding: 5px;
+	border-radius: 10px;
+	cursor: pointer;
+}
+
+.hint {
+	color: #0074D9;
+}
+
+.wordState {
+	color: yellow;
+	margin: 20px 0;
+	font-size: 1.25rem;
+}
+
+.incorrect-letters {
+	color: deeppink;
+	font-size: 1.25rem;
+}
+
+.score {
+	font-size: 2rem;
+}
+
+.modal-text {
+	color: black;
+}
+
+.wordBank-list {
+	text-align: left;
+}
+
+.btnContainer {
+	display: flex;
+	flex-direction: column;
+}
+
+.red {
+	color: red;
+}
+
+.clickable {
+	cursor: pointer;
+}
+
+.align-left {
+	text-align: left;
+}
+
+.small-text {
+	font-size: 0.75rem;
+	color: gray;
 }

@@ -8,7 +8,8 @@
     "build": "webpack --mode production",
     "test": "jest",
     "test:api": "jest ./server --collectCoverageFrom=server/**/*.{js}",
-    "dev": "concurrently --kill-others \"npm start\" \"nodemon server\""
+    "dev": "concurrently --kill-others \"npm start\" \"nodemon server\"",
+    "heroku-postbuild": "webpack -p --progress"
   },
   "author": "Joseph Huynh",
   "license": "ISC",
