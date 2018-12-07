@@ -4,12 +4,12 @@
   "private": true,
   "description": "Assignment for Kitu Systems full stack software engineer application",
   "scripts": {
-    "start": "webpack-dev-server --config ./webpack.config.js --mode development",
-    "build": "webpack --mode production",
+    "start": "webpack-dev-server --config ./webpack.dev.js --mode development",
+    "build": "webpack --config ./webpack.prod.js --mode production",
     "test": "jest",
     "test:api": "jest ./server --collectCoverageFrom=server/**/*.{js}",
     "dev": "concurrently --kill-others \"npm start\" \"nodemon server\"",
-    "heroku-postbuild": "webpack --mode production --progress"
+    "heroku-postbuild": "webpack --config ./webpack.prod.js --mode production --progress"
   },
   "author": "Joseph Huynh",
   "license": "ISC",
@@ -25,6 +25,11 @@
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/src/__mocks__/fileMock.js",
       "\\.(css|less)$": "<rootDir>/src/__mocks__/styleMock.js"
     }
+  },
+  "nodemonConfig": {
+    "watch": [
+      "server/*"
+    ]
   },
   "dependencies": {
     "@babel/runtime": "^7.2.0",
@@ -67,6 +72,7 @@
     "supertest": "^3.3.0",
     "webpack": "^4.26.1",
     "webpack-cli": "^3.1.2",
-    "webpack-dev-server": "^3.1.10"
+    "webpack-dev-server": "^3.1.10",
+    "webpack-merge": "^4.1.4"
   }
 }

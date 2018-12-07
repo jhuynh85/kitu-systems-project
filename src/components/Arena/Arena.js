@@ -29,7 +29,7 @@ class Arena extends Component {
   }
 
   componentDidUpdate (prevProps) {
-    // Update animation
+    // Check status prop and update animation accordingly
     if (this.props.status !== prevProps.status) {
       if (this.props.status === 'hit') {
         this.hit(this.props.mikeHP)
@@ -41,6 +41,7 @@ class Arena extends Component {
     }
   }
 
+  // Perform hit animation
   hit (mikeHP) {
     let mikeStatus, macStatus
     if (mikeHP <= 0) {
@@ -53,6 +54,7 @@ class Arena extends Component {
     this.setState({ mikeStatus, macStatus })
   }
 
+  // Perform miss animation
   miss (macHP) {
     let mikeStatus, macStatus
     if (macHP <= 0) {
@@ -65,6 +67,7 @@ class Arena extends Component {
     this.setState({ mikeStatus, macStatus })
   }
 
+  // Perform idle animation
   idle () {
     this.setState({ mikeStatus: STATUS.IDLE, macStatus: STATUS.IDLE })
   }

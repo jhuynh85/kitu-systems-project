@@ -65,6 +65,7 @@ typings/
 /build
 /dist
 !/dist/index.html
+!/dist/favicon.ico
 
 # misc
 .vscode

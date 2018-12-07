@@ -171,7 +171,7 @@ class Main extends Component {
     this.setState({ mikeHP })
   }
 
-  // Sets status to 'hit' for 500ms before changing back to 'idle'
+  // Sets status to 'hit' for 750ms before changing back to 'idle'
   hit () {
     this.setState({ status: 'hit' })
     setTimeout(() => {
@@ -183,7 +183,7 @@ class Main extends Component {
     }, 750)
   }
 
-  // Sets status to 'miss' for 500ms before changing back to 'idle'
+  // Sets status to 'miss' for 750ms before changing back to 'idle'
   miss () {
     this.setState({ status: 'miss' })
     setTimeout(() => {
@@ -196,7 +196,6 @@ class Main extends Component {
   }
 
   showModal () {
-    this.loadWordBank()
     this.setState({ showModal: true })
     document.removeEventListener('keydown', this.handleKeyDown, false)
   }
@@ -290,6 +289,7 @@ class Main extends Component {
                 </Modal>}
                 <div className={'btn'} title={'View word bank'} onClick={() => {
                   this.setState({ modal: 'list' })
+                  this.loadWordBank()
                   this.showModal()
                 }}>VIEW
                 </div>

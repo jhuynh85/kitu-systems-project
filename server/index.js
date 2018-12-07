@@ -27,13 +27,13 @@ app.get('/api/all', function (req, res) {
 app.get('/api/random', function (req, res) {
   const pickRandomProperty = function (obj) {
     const keys = Object.keys(obj)
-    return keys[keys.length * Math.random() << 0]
+    return keys[(keys.length * Math.random()) << 0]
   }
 
   const numWords = Object.keys(WORD_BANK).length
   if (numWords > 0) {
     let randomWord = pickRandomProperty(WORD_BANK)
-    res.json({ 'word': randomWord, 'hint': WORD_BANK[randomWord] })
+    res.json({ word: randomWord, hint: WORD_BANK[randomWord] })
   } else {
     res.json({})
   }
