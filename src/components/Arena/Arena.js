@@ -10,8 +10,8 @@ import HealthBar from '../HealthBar/HealthBar'
 import STATUS from '../statusTypes'
 
 // Load audio files
+import missAudioFile from '../../assets/audio/miss.mp3'
 import hitAudioFile from '../../assets/audio/hit.mp3'
-import punchAudioFile from '../../assets/audio/punch.mp3'
 import winAudioFile from '../../assets/audio/ko-win.mp3'
 import loseAudioFile from '../../assets/audio/ko-lose.mp3'
 
@@ -76,7 +76,7 @@ class Arena extends Component {
     return (
       <div className={'arena'}>
         <Sound
-          url={punchAudioFile}
+          url={hitAudioFile}
           autoLoad
           playStatus={this.props.status === 'hit' && this.props.mikeHP > 0 ? Sound.status.PLAYING : Sound.status.STOPPED}
         />
@@ -86,7 +86,7 @@ class Arena extends Component {
           playStatus={this.props.status === 'hit' && this.props.mikeHP <= 0 ? Sound.status.PLAYING : Sound.status.STOPPED}
         />
         <Sound
-          url={hitAudioFile}
+          url={missAudioFile}
           autoLoad
           playStatus={this.props.status === 'miss' && this.props.macHP > 0 ? Sound.status.PLAYING : Sound.status.STOPPED}
         />
