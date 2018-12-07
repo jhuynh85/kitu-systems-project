@@ -3,7 +3,7 @@ by Joseph Huynh
 
 Deployed at: https://hangman-react-edition.herokuapp.com/
 
-This application a hangman game which consists of a React frontend and a 
+This application is a hangman game which consists of a React frontend and a 
 Node/Express backend. The frontend displays the graphical interface while the backend
 provides the list of available words. API routes are available to retrieve or modify 
 the word bank by adding or deleting words.  For the sake of convenience, the word bank is stored
@@ -59,8 +59,7 @@ rules is used to maintain code consistency.
 
 ### Testing
 
-Jest, Enzyme, and supertest are used for unit and integration 
-testing. Test coverage information is automatically displayed after tests are
+Jest, Enzyme, and supertest are used for testing. Test coverage information is automatically displayed after tests are
 ran and can also be found in the `/coverage` directory.
 
 `npm test` - Run all tests  
